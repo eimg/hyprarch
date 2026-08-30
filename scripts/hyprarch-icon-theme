@@ -1,0 +1,106 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# User-level theme that inherits Papirus-Dark and remaps folders to a
+# Papirus color (same names as papirus-folders). Accepts a palette id
+# (teal/dusk/pine/slate/rose/amber) or a Papirus color name.
+
+src=/usr/share/icons/Papirus-Dark
+dst=$HOME/.local/share/icons/Hyprarch
+requested=${1:-teal}
+
+papirus_color() {
+    case $1 in
+        teal) echo teal ;;
+        dusk) echo indigo ;;
+        pine) echo green ;;
+        slate) echo grey ;;
+        rose) echo pink ;;
+        amber) echo yellow ;;
+        black | blue | bluegrey | breeze | brown | carmine | cyan | \
+        darkcyan | deeporange | green | grey | indigo | magenta | nordic | \
+        orange | palebrown | paleorange | pink | red | violet | white | \
+        yaru | yellow)
+            echo "$1"
+            ;;
+        *) echo teal ;;
+    esac
+}
+
+color=$(papirus_color "$requested")
+
+if [[ ! -d $src ]]; then
+    echo "hyprarch-icon-theme: Papirus-Dark is not installed" >&2
+    exit 1
+fi
+
+mkdir -p "$(dirname "$dst")"
+exec 9>"$(dirname "$dst")/.hyprarch.lock"
+flock 9
+
+if [[ -f $dst/.folder-color && $(<"$dst/.folder-color") == "$color" && ${HYPRARCH_ICON_FORCE:-0} != 1 ]]; then
+    echo "ICON_THEME_OK: Hyprarch (Papirus-Dark, ${color} folders, unchanged)"
+    exit 0
+fi
+
+rm -rf "$dst"
+mkdir -p "$dst"
+
+dirs=()
+shopt -s nullglob
+for places_link in "$src"/*/places; do
+    rel=${places_link#"$src"/}
+    places=$(readlink -f "$places_link")
+    [[ -d $places ]] || continue
+    mkdir -p "$dst/$rel"
+    dirs+=("$rel")
+    for icon in "$places"/*; do
+        [[ -L $icon ]] || continue
+        target=$(readlink "$icon")
+        case $target in
+            *blue*)
+                remapped=${target//blue/$color}
+                if [[ -e $places/$remapped ]]; then
+                    ln -sfn "$places/$remapped" "$dst/$rel/$(basename "$icon")"
+                fi
+                ;;
+        esac
+    done
+done
+shopt -u nullglob
+
+{
+    printf '%s\n' '[Icon Theme]'
+    printf '%s\n' 'Name=Hyprarch'
+    printf '%s\n' "Comment=Papirus-Dark with ${color} folders"
+    printf '%s\n' 'Inherits=Papirus-Dark,Papirus,hicolor'
+    printf '%s\n' "Directories=$(IFS=,; echo "${dirs[*]}")"
+    printf '\n'
+    for rel in "${dirs[@]}"; do
+        base=${rel%%/*}
+        size=${base%%x*}
+        printf '%s\n' "[$rel]"
+        printf '%s\n' "Size=$size"
+        printf '%s\n' 'Context=Places'
+        printf '%s\n' 'Type=Fixed'
+        printf '\n'
+    done
+} >"$dst/index.theme"
+
+printf '%s\n' "$color" >"$dst/.folder-color"
+
+gtk-update-icon-cache -f "$dst" 2>/dev/null || true
+
+# Poke GTK so already-open apps pick up the remapped folders.
+if command -v gsettings >/dev/null; then
+    gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Dark' 2>/dev/null || true
+    gsettings set org.gnome.desktop.interface icon-theme 'Hyprarch' 2>/dev/null || true
+fi
+
+for ini in "$HOME/.config/gtk-3.0/settings.ini" "$HOME/.config/gtk-4.0/settings.ini"; do
+    if [[ -f $ini ]]; then
+        sed -i 's/^gtk-icon-theme-name=.*/gtk-icon-theme-name=Hyprarch/' "$ini"
+    fi
+done
+
+echo "ICON_THEME_OK: Hyprarch (Papirus-Dark, ${color} folders)"

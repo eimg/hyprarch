@@ -1,0 +1,36 @@
+/* Thunar sidebar only. Colors are rewritten by hyprarch-apply-theme. */
+
+.thunar .sidebar,
+.thunar .sidebar.frame,
+.thunar .shortcuts-pane {
+    border: none;
+    border-right-width: 0;
+}
+
+.thunar .shortcuts-pane .view {
+    border: none;
+    padding: 8px 6px;
+}
+
+.thunar .shortcuts-pane .view:hover {
+    background-color: #143844;
+    border-radius: 8px;
+}
+
+.thunar .shortcuts-pane .view:selected,
+.thunar .shortcuts-pane .view:selected:focus,
+.thunar .shortcuts-pane .view:selected:hover {
+    background-color: #12343f;
+    color: #a5f3fc;
+    border-radius: 8px;
+}
+
+/* Mousepad: drop the sunken editor frame so it sits like Thunar. */
+window.mousepad scrolledwindow,
+window.mousepad .frame,
+.mousepad scrolledwindow,
+.mousepad .frame {
+    border: none;
+    box-shadow: none;
+    background-color: #242424;
+}

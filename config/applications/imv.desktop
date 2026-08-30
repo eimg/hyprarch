@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=Image Viewer
+GenericName=Image viewer
+Comment=View photos and images
+Exec=hyprarch-imv %F
+TryExec=nsxiv
+NoDisplay=false
+Terminal=false
+Type=Application
+Categories=Graphics;2DGraphics;Viewer;
+MimeType=image/png;image/jpeg;image/jpg;image/pjpeg;image/gif;image/webp;image/svg+xml;image/tiff;image/bmp;image/x-bmp;image/heif;image/heic;image/avif;image/jxl;
+Icon=multimedia-photo-viewer
+Keywords=photo;picture;image;

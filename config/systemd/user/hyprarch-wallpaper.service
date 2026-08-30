@@ -1,0 +1,14 @@
+[Unit]
+Description=HyprArch wallpaper
+PartOf=graphical-session.target
+After=graphical-session.target wayland-wm@hyprland.desktop.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/swaybg -i %h/.local/share/backgrounds/hyprarch/current -m fill
+Restart=on-failure
+RestartSec=2
+TimeoutStopSec=5
+
+[Install]
+WantedBy=graphical-session.target

@@ -1,0 +1,12 @@
+#!/bin/bash
+# Login TUI on the Retina framebuffer. Boot/vconsole stays at ter-v16n so
+# early logs are not huge; 24px is the middle ground for tuigreet.
+setfont ter-v24n -C /dev/tty1 2>/dev/null || setfont ter-v24n || true
+exec tuigreet \
+    --time \
+    --remember \
+    --asterisks \
+    --width 96 \
+    --window-padding 1 \
+    --greeting 'HyprArch' \
+    --cmd 'uwsm start -e -D Hyprland hyprland.desktop'

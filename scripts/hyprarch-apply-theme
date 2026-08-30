@@ -1,0 +1,131 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Apply nsxiv letterbox, Hyprland borders, Papirus folders, Thunar sidebar.
+# Args: bg accentSoft textMuted accent hyprActive hyprInactive
+#       [themeId surface hover accentFill]
+
+bg=${1:-#0b1220}
+accent_soft=${2:-#a5f3fc}
+text_muted=${3:-#94a3b8}
+accent=${4:-#67e8f9}
+hypr_active=${5:-rgba(7dd3fcee)}
+hypr_inactive=${6:-rgba(475569aa)}
+
+mkdir -p "$HOME/.config/nsxiv"
+cat >"$HOME/.config/nsxiv/Xresources" <<EOF
+Nsxiv.window.background:	${bg}
+Nsxiv.window.foreground:	${accent_soft}
+Nsxiv.bar.background:	${bg}
+Nsxiv.bar.foreground:	${text_muted}
+Nsxiv.mark.foreground:	${accent}
+EOF
+
+if command -v xprop >/dev/null; then
+    DISPLAY=${DISPLAY:-:0} xprop -display "${DISPLAY:-:0}" -root \
+        -f RESOURCE_MANAGER 8s \
+        -set RESOURCE_MANAGER "$(cat "$HOME/.config/nsxiv/Xresources")" \
+        >/dev/null 2>&1 || true
+fi
+
+if command -v hyprctl >/dev/null; then
+    hyprctl keyword general:col.active_border "$hypr_active" >/dev/null 2>&1 || true
+    hyprctl keyword general:col.inactive_border "$hypr_inactive" >/dev/null 2>&1 || true
+fi
+
+theme_id=${7:-teal}
+surface=${8:-#111c2f}
+hover=${9:-#143844}
+accent_fill=${10:-#12343f}
+
+mkdir -p "$HOME/.config/gtk-3.0" \
+    "$HOME/.local/share/gtksourceview-4/styles"
+cat >"$HOME/.local/share/gtksourceview-4/styles/hyprarch.xml" <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<style-scheme id="hyprarch" name="Hyprarch" version="1.0">
+  <author>HyprArch</author>
+  <description>Charcoal editor that matches Thunar / Adwaita-dark</description>
+  <color name="bg" value="#242424"/>
+  <color name="fg" value="#e2e8f0"/>
+  <color name="muted" value="#6b7280"/>
+  <color name="line" value="#2c2c2c"/>
+  <color name="sel-bg" value="${accent_fill}"/>
+  <color name="sel-fg" value="${accent_soft}"/>
+  <color name="accent" value="${accent}"/>
+  <color name="butter" value="#f5d76e"/>
+  <color name="orange" value="#e8a35c"/>
+  <color name="sky" value="#7eb6d9"/>
+  <color name="green" value="#8fbf6a"/>
+  <color name="plum" value="#c08bb6"/>
+  <color name="red" value="#e06c75"/>
+  <color name="white" value="#f8fafc"/>
+  <style name="text" foreground="fg" background="bg"/>
+  <style name="selection" foreground="sel-fg" background="sel-bg"/>
+  <style name="cursor" foreground="accent"/>
+  <style name="current-line" background="line"/>
+  <style name="current-line-number" foreground="accent" background="bg"/>
+  <style name="line-numbers" foreground="muted" background="bg"/>
+  <style name="draw-spaces" foreground="muted"/>
+  <style name="background-pattern" background="bg"/>
+  <style name="bracket-match" foreground="orange"/>
+  <style name="bracket-mismatch" foreground="white" background="red"/>
+  <style name="search-match" foreground="bg" background="green"/>
+  <style name="right-margin" foreground="muted" background="line"/>
+  <style name="def:comment" foreground="muted"/>
+  <style name="def:shebang" foreground="muted" bold="true"/>
+  <style name="def:constant" foreground="butter"/>
+  <style name="def:string" foreground="butter"/>
+  <style name="def:special-char" foreground="orange"/>
+  <style name="def:identifier" foreground="sky"/>
+  <style name="def:statement" foreground="white" bold="true"/>
+  <style name="def:type" foreground="green" bold="true"/>
+  <style name="def:preprocessor" foreground="plum"/>
+  <style name="def:error" foreground="white" background="red" bold="true"/>
+  <style name="def:heading" foreground="green" bold="true"/>
+  <style name="def:inline-code" foreground="sky"/>
+</style-scheme>
+EOF
+gsettings set org.xfce.mousepad.preferences.view color-scheme 'hyprarch' 2>/dev/null || true
+
+mkdir -p "$HOME/.config/gtk-3.0"
+cat >"$HOME/.config/gtk-3.0/gtk.css" <<EOF
+/* Thunar sidebar + Mousepad chrome. Written by hyprarch-apply-theme. */
+
+.thunar .sidebar,
+.thunar .sidebar.frame,
+.thunar .shortcuts-pane {
+    border: none;
+    border-right-width: 0;
+}
+
+.thunar .shortcuts-pane .view {
+    border: none;
+    padding: 8px 6px;
+}
+
+.thunar .shortcuts-pane .view:hover {
+    background-color: ${hover};
+    border-radius: 8px;
+}
+
+.thunar .shortcuts-pane .view:selected,
+.thunar .shortcuts-pane .view:selected:focus,
+.thunar .shortcuts-pane .view:selected:hover {
+    background-color: ${accent_fill};
+    color: ${accent_soft};
+    border-radius: 8px;
+}
+
+window.mousepad scrolledwindow,
+window.mousepad .frame,
+.mousepad scrolledwindow,
+.mousepad .frame {
+    border: none;
+    box-shadow: none;
+    background-color: #242424;
+}
+EOF
+
+if [[ -x $HOME/.local/bin/hyprarch-icon-theme ]]; then
+    "$HOME/.local/bin/hyprarch-icon-theme" "$theme_id" >/dev/null || true
+fi

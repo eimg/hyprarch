@@ -1,0 +1,6 @@
+---
+description: HyprArch kickstart — stack and handover
+alwaysApply: true
+---
+
+This repository is the public HyprArch kickstart. Follow `AGENTS.md`, `docs/STACK.md`, and `docs/AGENT.md`. Do not install GNOME, GDM, Omarchy, or DMS. Tracks are `metal` and `parallels`. VirtualBox + Windows is untested documentation only.

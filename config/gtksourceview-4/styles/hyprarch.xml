@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<style-scheme id="hyprarch" name="Hyprarch" version="1.0">
+  <author>HyprArch</author>
+  <description>Charcoal editor that matches Thunar / Adwaita-dark</description>
+
+  <color name="bg" value="#242424"/>
+  <color name="fg" value="#e2e8f0"/>
+  <color name="muted" value="#6b7280"/>
+  <color name="line" value="#2c2c2c"/>
+  <color name="sel-bg" value="#12343f"/>
+  <color name="sel-fg" value="#a5f3fc"/>
+  <color name="accent" value="#67e8f9"/>
+  <color name="butter" value="#f5d76e"/>
+  <color name="orange" value="#e8a35c"/>
+  <color name="sky" value="#7eb6d9"/>
+  <color name="green" value="#8fbf6a"/>
+  <color name="plum" value="#c08bb6"/>
+  <color name="red" value="#e06c75"/>
+  <color name="white" value="#f8fafc"/>
+
+  <style name="text" foreground="fg" background="bg"/>
+  <style name="selection" foreground="sel-fg" background="sel-bg"/>
+  <style name="cursor" foreground="accent"/>
+  <style name="current-line" background="line"/>
+  <style name="current-line-number" foreground="accent" background="bg"/>
+  <style name="line-numbers" foreground="muted" background="bg"/>
+  <style name="draw-spaces" foreground="muted"/>
+  <style name="background-pattern" background="bg"/>
+  <style name="bracket-match" foreground="orange"/>
+  <style name="bracket-mismatch" foreground="white" background="red"/>
+  <style name="search-match" foreground="bg" background="green"/>
+  <style name="right-margin" foreground="muted" background="line"/>
+
+  <style name="def:comment" foreground="muted"/>
+  <style name="def:shebang" foreground="muted" bold="true"/>
+  <style name="def:constant" foreground="butter"/>
+  <style name="def:string" foreground="butter"/>
+  <style name="def:special-char" foreground="orange"/>
+  <style name="def:identifier" foreground="sky"/>
+  <style name="def:statement" foreground="white" bold="true"/>
+  <style name="def:type" foreground="green" bold="true"/>
+  <style name="def:preprocessor" foreground="plum"/>
+  <style name="def:error" foreground="white" background="red" bold="true"/>
+  <style name="def:heading" foreground="green" bold="true"/>
+  <style name="def:inline-code" foreground="sky"/>
+</style-scheme>

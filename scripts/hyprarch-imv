@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# imv's GLES/X11 backends draw a black surface on this Parallels GPU.
+# Prefer nsxiv (imlib2). Until it is installed, open the image in Chromium.
+
+to_path() {
+    python3 - "$1" <<'PY'
+import sys
+from urllib.parse import unquote, urlparse
+raw = sys.argv[1]
+parsed = urlparse(raw)
+if parsed.scheme == "file":
+    print(unquote(parsed.path))
+else:
+    print(raw)
+PY
+}
+
+is_image() {
+    local f=$1
+    [[ -f $f ]] || return 1
+    case ${f##*.} in
+        jpg|jpeg|png|webp|gif|svg|tif|tiff|bmp|heic|heif|avif|jxl|JPG|JPEG|PNG|WEBP)
+            return 0
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+}
+
+collect_dir() {
+    local dir=$1
+    [[ -d $dir ]] || return 0
+    find "$dir" -maxdepth 1 -type f \( \
+        -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o \
+        -iname '*.webp' -o -iname '*.gif' -o -iname '*.svg' -o \
+        -iname '*.tif' -o -iname '*.tiff' -o -iname '*.bmp' \
+    \) | sort
+}
+
+files=()
+for arg in "$@"; do
+    path=$(to_path "$arg")
+    if is_image "$path"; then
+        files+=("$path")
+    elif [[ -d $path ]]; then
+        while IFS= read -r f; do
+            files+=("$f")
+        done < <(collect_dir "$path")
+    fi
+done
+
+if [[ ${#files[@]} -eq 0 ]]; then
+    while IFS= read -r f; do
+        files+=("$f")
+    done < <(collect_dir "$HOME/Pictures")
+fi
+if [[ ${#files[@]} -eq 0 ]]; then
+    while IFS= read -r f; do
+        files+=("$f")
+    done < <(collect_dir "$HOME/.local/share/backgrounds/hyprarch")
+fi
+
+if [[ ${#files[@]} -eq 0 ]]; then
+    echo "hyprarch-imv: no images to open" >&2
+    exit 1
+fi
+
+if command -v nsxiv >/dev/null; then
+    colors=$HOME/.config/nsxiv/Xresources
+    export DISPLAY=${DISPLAY:-:0}
+    if [[ -f $colors ]] && command -v xprop >/dev/null; then
+        xprop -display "$DISPLAY" -root -f RESOURCE_MANAGER 8s \
+            -set RESOURCE_MANAGER "$(cat "$colors")" >/dev/null 2>&1 || true
+    fi
+    exec nsxiv -a -s f "${files[@]}"
+fi
+
+# Chromium already renders on this GPU. file:// so it does not search the web.
+uris=()
+for f in "${files[@]}"; do
+    uris+=("file://$f")
+done
+exec /usr/bin/chromium --new-window "${uris[0]}"

@@ -1,0 +1,15 @@
+[Unit]
+Description=HyprArch Quickshell panel
+Documentation=https://quickshell.org/docs/v0.3.1/
+PartOf=graphical-session.target
+After=graphical-session.target wayland-wm@hyprland.desktop.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/qs --no-duplicate --config hyprarch
+Restart=on-failure
+RestartSec=2
+TimeoutStopSec=10
+
+[Install]
+WantedBy=graphical-session.target

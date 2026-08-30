@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+"""Restore the sharp Parallels Retina mode.
+
+preferred is 1024x768 at greetd even with fullscreen startup. The working
+desktop on this host is 3024x1898@60 scale 2. Apply it if the session
+came up smaller.
+"""
+
+import json
+import os
+import subprocess
+import sys
+
+SHARP = 'hl.monitor({ output = "", mode = "3024x1898@60", position = "auto", scale = 2 })'
+SHARP_WIDTH = 3024
+
+
+def hyprctl(*args: str) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        ["hyprctl", *args],
+        check=False,
+        capture_output=True,
+        text=True,
+        env=os.environ.copy(),
+    )
+
+
+def main() -> int:
+    listing = hyprctl("-j", "monitors")
+    if listing.returncode != 0 or not listing.stdout.strip():
+        return 1
+    monitors = json.loads(listing.stdout)
+    if not monitors:
+        return 0
+    width = int(monitors[0].get("width") or 0)
+    if width >= SHARP_WIDTH:
+        return 0
+    applied = hyprctl("eval", SHARP)
+    return 0 if applied.returncode == 0 else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -1,0 +1,11 @@
+[Unit]
+Description=HyprArch: restore 3024x1898 Retina mode if login started tiny
+PartOf=graphical-session.target
+After=graphical-session.target wayland-wm@hyprland.desktop.service
+
+[Service]
+Type=oneshot
+ExecStart=/home/eimg/.local/bin/hyprarch-fix-monitor
+
+[Install]
+WantedBy=graphical-session.target

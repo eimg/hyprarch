@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ $# -lt 1 || ! -f $1 ]]; then
+    echo "usage: hyprarch-set-wallpaper IMAGE" >&2
+    exit 1
+fi
+
+src=$(realpath "$1")
+pack=$HOME/.local/share/backgrounds/hyprarch
+mkdir -p "$pack" "$HOME/.config/hyprarch"
+
+dest=$src
+if [[ $src != "$pack/"* ]]; then
+    dest=$pack/$(basename "$src")
+    cp -f "$src" "$dest"
+fi
+
+ln -sfn "$dest" "$pack/current"
+printf '%s\n' "$dest" >"$HOME/.config/hyprarch/wallpaper"
+systemctl --user restart hyprarch-wallpaper.service
