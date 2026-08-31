@@ -79,7 +79,8 @@ PopupWindow {
             "bash", "-c",
             "find \"$HOME/.local/share/backgrounds/hyprarch\" \"$HOME/Pictures\" " +
             "-maxdepth 1 -type f \\( -iname '*.jpg' -o -iname '*.jpeg' -o " +
-            "-iname '*.png' -o -iname '*.webp' \\) ! -name current 2>/dev/null | sort -u"
+            "-iname '*.png' -o -iname '*.webp' \\) ! -name current -print0 2>/dev/null " +
+            "| xargs -0 -r sha256sum | sort -s -k1,1 -u | sed 's/^[0-9a-f]\\{64\\}  //'"
         ]
         stdout: StdioCollector {
             onStreamFinished: root.wallpapers = text.trim().length > 0 ? text.trim().split("\n") : []
@@ -171,6 +172,8 @@ PopupWindow {
                                 source: "file://" + modelData
                                 fillMode: Image.PreserveAspectCrop
                                 asynchronous: true
+                                sourceSize.width: 404
+                                sourceSize.height: 176
                             }
 
                             Rectangle {

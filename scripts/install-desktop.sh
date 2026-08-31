@@ -116,6 +116,7 @@ install -d \
     "$HOME/.config/uwsm" \
     "$HOME/.config/quickshell/hyprarch" \
     "$HOME/.config/systemd/user" \
+    "$HOME/.config/systemd/user/at-spi-dbus-bus.service.d" \
     "$HOME/.config/foot" \
     "$HOME/.config/gtk-3.0" \
     "$HOME/.config/gtk-4.0" \
@@ -159,6 +160,10 @@ install -m 644 "$CFG/uwsm/env" "$HOME/.config/uwsm/env"
 install -m 644 "$CFG/quickshell/hyprarch/"*.qml "$HOME/.config/quickshell/hyprarch/"
 install -m 644 "$CFG/systemd/user/hyprarch-shell.service" "$HOME/.config/systemd/user/"
 install -m 644 "$CFG/systemd/user/hyprarch-wallpaper.service" "$HOME/.config/systemd/user/"
+install -m 644 "$CFG/systemd/user/cliphist-text.service" "$HOME/.config/systemd/user/"
+install -m 644 "$CFG/systemd/user/cliphist-image.service" "$HOME/.config/systemd/user/"
+install -m 644 "$CFG/systemd/user/at-spi-dbus-bus.service.d/session-cleanup.conf" \
+    "$HOME/.config/systemd/user/at-spi-dbus-bus.service.d/"
 install -m 644 "$CFG/foot/foot.ini" "$HOME/.config/foot/foot.ini"
 install -m 644 "$CFG/gtk-3.0/settings.ini" "$HOME/.config/gtk-3.0/settings.ini"
 install -m 644 "$CFG/gtk-3.0/gtk.css" "$HOME/.config/gtk-3.0/gtk.css"
@@ -266,7 +271,9 @@ if [[ $TRACK == parallels ]]; then
 fi
 
 systemctl --user daemon-reload || true
-systemctl --user enable hyprarch-shell.service hyprarch-wallpaper.service || true
+systemctl --user enable \
+    hyprarch-shell.service hyprarch-wallpaper.service \
+    cliphist-text.service cliphist-image.service || true
 systemctl --user enable hyprpolkitagent.service 2>/dev/null || true
 systemctl --user enable pipewire.socket pipewire-pulse.socket wireplumber.service 2>/dev/null || true
 

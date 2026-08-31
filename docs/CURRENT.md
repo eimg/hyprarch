@@ -1,6 +1,6 @@
 # Current desktop
 
-This is the working HyprArch desktop as of 2026-08-30. The development guest was Arch Linux ARM in Parallels on Apple Silicon. The same widgets and apps are what `--track metal` should produce, except the monitor block and Parallels extras.
+This is the working HyprArch desktop as of 2026-08-31. The development guest was Arch Linux ARM in Parallels on Apple Silicon. The same widgets and apps are what `--track metal` should produce, except the monitor block and Parallels extras.
 
 ## Session
 
@@ -12,6 +12,7 @@ This is the working HyprArch desktop as of 2026-08-30. The development guest was
 | Recovery | Ctrl+Alt+F2 |
 | Shell | Quickshell 0.3.x, config `hyprarch` |
 | Wallpaper | `swaybg` via `hyprarch-wallpaper.service` |
+| Clipboard history | text/image `wl-paste` watchers via `cliphist-*.service` |
 
 ## Apps
 

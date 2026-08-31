@@ -5,6 +5,7 @@ After=graphical-session.target wayland-wm@hyprland.desktop.service
 
 [Service]
 Type=oneshot
+ExecCondition=/usr/bin/sh -c 'test -n "$HYPRLAND_INSTANCE_SIGNATURE"'
 ExecStart=/home/eimg/.local/bin/hyprarch-fix-monitor
 
 [Install]

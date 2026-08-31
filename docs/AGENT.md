@@ -49,6 +49,7 @@ Live guest files are ordinary copies of this tree:
 | `config/uwsm/env` | `~/.config/uwsm/env` |
 | `config/quickshell/hyprarch/*.qml` | `~/.config/quickshell/hyprarch/` |
 | `config/systemd/user/*.service` | `~/.config/systemd/user/` |
+| `config/systemd/user/at-spi-dbus-bus.service.d/` | `~/.config/systemd/user/at-spi-dbus-bus.service.d/` |
 | `config/greetd/config.toml` | `/etc/greetd/config.toml` |
 | `config/greetd/hyprarch-tuigreet` | `/usr/local/bin/hyprarch-tuigreet` |
 | `scripts/hyprarch-*` | `~/.local/bin/` |

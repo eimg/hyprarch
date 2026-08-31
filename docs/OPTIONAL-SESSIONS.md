@@ -66,13 +66,13 @@ Keep config name `hyprarch`. Detect each compositor **separately**:
 
 **Never** treat `!onHyprland` as niri. A third WM then gets niri widgets and `niri msg` polls.
 
-Shortcuts: `GlobalShortcut` is Hyprland-only (`hyprland_global_shortcuts_v1`). On niri/mango, Super+Space / Super+/ should `qs -c hyprarch ipc call shell …`.
+Shortcuts: `GlobalShortcut` is Hyprland-only (`hyprland_global_shortcuts_v1`). Instantiate those QML objects only when Hyprland is active; merely leaving them present on niri/mango emits unsupported-protocol warnings. On niri/mango, Super+Space / Super+/ should `qs -c hyprarch ipc call shell …`.
 
 IPC from QML: plain argv (`execDetached(["niri", "msg", …])`). Do **not** wrap in `bash -c` with `"$1"` — the argument can vanish.
 
 Do not hand-write `qmldir`. Quickshell generates it. A file that only lists `Theme` makes every other type fail.
 
-Menus: `HyprlandFocusGrab` on Hyprland only. On niri/mango, `PopupWindow` with `grabFocus: false`; close with the same bar button. Do **not** add a fullscreen transparent click-away `PanelWindow` (broke layout and input on niri).
+Menus: `HyprlandFocusGrab` on Hyprland only. On niri/mango, let the `PopupWindow` grab focus so clicking elsewhere dismisses it. Do **not** add a fullscreen transparent click-away `PanelWindow` (broke layout and input on niri).
 
 Some compositors ignore clicks on fully transparent layer pixels. Keep clickable bar chrome opaque.
 
@@ -99,13 +99,17 @@ Settled UX from the development guest (keep unless the user asks otherwise):
 
 Output names vary on VMs. A oneshot that applies the Retina mode when `NIRI_SOCKET` exists is safer than assuming `Virtual-1`.
 
+Install `xdg-desktop-portal-gnome`; niri's packaged portal preference expects it. The GTK backend alone does not provide niri screenshot/screencast support.
+
 `niri msg` from SSH needs `NIRI_SOCKET` from `systemctl --user show-environment`.
 
 ## mango (mangowm)
 
 dwm-style **tags**, not workspaces. Super+1 **views** a tag (a label). Super+Shift+1 **assigns** the window to that tag. A window can have several tags. There is no empty Hyprland-style room waiting.
 
-Not in `extra`. Typical build path on a guest that already has `wlroots0.20` in extra: build [scenefx](https://github.com/wlrfx/scenefx) 0.5 into `/usr/local`, then mango. Hyprland uses aquamarine; leave it alone.
+Not in `extra`. Typical build path on a guest that already has `wlroots0.20` in extra: build [scenefx](https://github.com/wlrfx/scenefx) 0.5 into `/usr/local`, then mango. Pin exact tested commits for both source trees, and use `pacman -Syu` rather than `pacman -Sy` before building. Hyprland uses aquamarine; leave it alone.
+
+Install `xdg-desktop-portal-wlr` and route mango's Screenshot and ScreenCast portals to `wlr`; keep general desktop portals on GTK.
 
 `mmsg` is the IPC (`MANGO_INSTANCE_SIGNATURE`). Commands look like:
 
@@ -135,6 +139,7 @@ Inside a tag, tiling is master + stack, not Hyprland dwindle. Cheatsheet should 
 5. Custom greeter session dir + UWSM Exec lines above. Do not restart greetd yet.
 6. Compositor config: keybinds in the HyprArch spirit, **no** bar/wallpaper spawn.
 7. Quickshell: detect that WM; native workspace widget; native cheatsheet; no `!hyprland → niri`.
-8. Tell the user to log out (Super+Shift+E) and pick the session with F3.
+8. Gate compositor-specific monitor helpers with `ExecCondition`; keep shared clipboard-history watchers attached to `graphical-session.target`.
+9. Tell the user to log out (Super+Shift+E) and pick the session with F3.
 
 Do not run `scripts/install-desktop.sh` again on a machine that already has the desktop.
