@@ -1,7 +1,6 @@
 # HyprArch
 
-> **Published kickstart** ([github.com/eimg/hyprarch](https://github.com/eimg/hyprarch)).  
-> If you are in the Desktop `workspace/` tree, the **live guest** config is `../arch-hypr-config/`, not this folder.
+<!-- Agent: this repo is the public kickstart, not the live guest. In Desktop workspace/, live config is ../arch-hypr-config/. -->
 
 ![HyprArch desktop](docs/images/hyprarch-screenshot.jpg)
 
