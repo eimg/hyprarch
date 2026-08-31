@@ -1,5 +1,8 @@
 # HyprArch
 
+> **Published kickstart** ([github.com/eimg/hyprarch](https://github.com/eimg/hyprarch)).  
+> If you are in the Desktop `workspace/` tree, the **live guest** config is `../arch-hypr-config/`, not this folder.
+
 ![HyprArch desktop](docs/images/hyprarch-screenshot.jpg)
 
 A lean Arch Linux desktop: **Hyprland** (Lua) + original **Quickshell** widgets + conventional plumbing (systemd, pacman, NetworkManager, PipeWire, greetd, UWSM).
@@ -52,6 +55,7 @@ docs/USER.md              first steps (human)
 docs/AGENT.md             full handover (agent)
 docs/STACK.md             locked choices and bans
 docs/CURRENT.md           desktop as it exists today
+docs/OPTIONAL-SESSIONS.md niri / mango beside Hyprland (hints only)
 docs/tracks/              metal / parallels / virtualbox-windows
 config/                   files that land in $HOME and /etc
 scripts/                  installer and user helpers

@@ -43,7 +43,12 @@ Omarchy and DMS are **references** for workflow and widget behavior. Implement o
 - Hyprland config is `~/.config/hypr/hyprland.lua`. Delete leftover `hyprland.conf`.
 - Do not `exec` Quickshell from Hyprland. systemd `--user` owns `hyprarch-shell.service`.
 - greetd owns the visible VT (usually VT1). Keep SSH. Keep a recovery getty on TTY2.
-- `XDG_CURRENT_DESKTOP=Hyprland`. `ADW_DISABLE_PORTAL=1` so GTK CSS applies.
+- Kickstart `uwsm/env` sets `XDG_CURRENT_DESKTOP=Hyprland`. That is correct until a second compositor exists. Then drop the hardcoded desktop names (see [OPTIONAL-SESSIONS.md](OPTIONAL-SESSIONS.md)).
+- `ADW_DISABLE_PORTAL=1` so GTK CSS applies.
+
+## Optional compositors
+
+niri and mango are **not** part of the locked stack. Do not install them unless the user asks. When they do, follow [OPTIONAL-SESSIONS.md](OPTIONAL-SESSIONS.md). Do not invent a fourth session manager or ship those configs into this repo by default.
 
 ## Privilege
 

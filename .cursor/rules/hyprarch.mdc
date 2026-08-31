@@ -1,6 +1,6 @@
 ---
-description: HyprArch kickstart — stack and handover
+description: HyprArch public kickstart only
 alwaysApply: true
 ---
 
-This repository is the public HyprArch kickstart. Follow `AGENTS.md`, `docs/STACK.md`, and `docs/AGENT.md`. Do not install GNOME, GDM, Omarchy, or DMS. Tracks are `metal` and `parallels`. VirtualBox + Windows is untested documentation only.
+This directory is the **published** kickstart (github.com/eimg/hyprarch), not the live Parallels guest. Follow `AGENTS.md`, `docs/STACK.md`, and `docs/AGENT.md`. Do not install GNOME, GDM, Omarchy, or DMS. If the parent folder is Desktop `workspace/`, ongoing guest work is `../arch-hypr-config/`. niri and mango are optional later sessions: `docs/OPTIONAL-SESSIONS.md` (hints only; this repo does not ship those configs).

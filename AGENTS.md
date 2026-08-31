@@ -10,4 +10,6 @@ This repo is the HyprArch kickstart: Arch + Hyprland (Lua) + Quickshell + greetd
 
 Do not invent a different compositor, greeter, or file manager. Do not install Omarchy, DMS, GNOME, or GDM.
 
+If the user later wants **niri** or **mango** beside Hyprland, read [docs/OPTIONAL-SESSIONS.md](docs/OPTIONAL-SESSIONS.md). This repo does not ship those configs. Hyprland stays daily.
+
 VirtualBox + Windows is documented as **untested** in [docs/tracks/virtualbox-windows.md](docs/tracks/virtualbox-windows.md). Do not claim it works.

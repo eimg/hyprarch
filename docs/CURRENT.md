@@ -59,3 +59,4 @@ Settings popup: Teal, Dusk, Pine, Slate, Rose, Amber. Choosing a palette updates
 - No VS Code in the kickstart
 - No grim-based screenshot tool in the kickstart
 - No CJK fonts unless disk allows (`noto-fonts-cjk`)
+- No niri or mango in this kickstart (optional later: [OPTIONAL-SESSIONS.md](OPTIONAL-SESSIONS.md))

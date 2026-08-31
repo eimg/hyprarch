@@ -65,6 +65,11 @@ Known follow-through that is **not** in the installer:
 - Growing a tiny installer root (one-off; ask)
 - VS Code (later, user-requested)
 - VirtualBox Windows VM ([tracks/virtualbox-windows.md](tracks/virtualbox-windows.md) — untested)
+- Extra compositors: niri and/or mango beside Hyprland ([OPTIONAL-SESSIONS.md](OPTIONAL-SESSIONS.md) — hints only, no configs in this repo)
+
+## Optional niri / mango
+
+Only if the user asks, and only after Hyprland works. Read [OPTIONAL-SESSIONS.md](OPTIONAL-SESSIONS.md) first. Do not add those packages or session files during the kickstart install. Do not treat every non-Hyprland session as niri.
 
 ## Hard rules
 

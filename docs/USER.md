@@ -73,3 +73,7 @@ The agent starts by **verifying**, not by installing.
 - Bar gear — wallpaper and color theme
 
 VS Code is not part of this kickstart. Neovim is in the terminal; Mousepad is the GUI notepad.
+
+## 7. Extra compositors (optional)
+
+The installer is Hyprland only. If you later want **niri** or **mango** as another F3 login choice, say so to an agent and point them at [OPTIONAL-SESSIONS.md](OPTIONAL-SESSIONS.md). That file is a guide, not an installer. Hyprland stays the daily session.
