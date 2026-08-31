@@ -99,7 +99,7 @@ Settled UX from the development guest (keep unless the user asks otherwise):
 
 Output names vary on VMs. A oneshot that applies the Retina mode when `NIRI_SOCKET` exists is safer than assuming `Virtual-1`.
 
-Install `xdg-desktop-portal-gnome`; niri's packaged portal preference expects it. The GTK backend alone does not provide niri screenshot/screencast support.
+For a Thunar-only desktop, use `xdg-desktop-portal-wlr` for Screenshot and ScreenCast and route FileChooser to GTK in `niri-portals.conf`. This keeps Nautilus and `xdg-desktop-portal-gnome` out of the installation. The tradeoff is less capable screencasting than niri's recommended GNOME portal path, especially for window-specific and dynamic cast targets.
 
 `niri msg` from SSH needs `NIRI_SOCKET` from `systemctl --user show-environment`.
 
