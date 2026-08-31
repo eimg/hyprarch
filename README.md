@@ -16,7 +16,9 @@ An agent can:     continue from docs/AGENT.md after you hand off
 
 Omarchy and DankMaterialShell are references only. Do not run their installers.
 
-## Two tracks
+## Tracks
+
+HyprArch itself has two install paths. VirtualBox is a Windows guest **beside** that desktop, not a third way to install HyprArch.
 
 | Track | Who it is for | Status |
 |---|---|---|
@@ -33,6 +35,7 @@ Start with **[docs/USER.md](docs/USER.md)**. Agents start with **[AGENTS.md](AGE
 - Thunar, Mousepad, Neovim, Foot, Chromium, nsxiv (via an imv-named wrapper)
 - Papirus folders remapped to the color palette (Hyprarch icon overlay)
 - Adwaita-dark, Inter, JetBrains Mono
+- Optional later: [niri](https://github.com/YaLTeR/niri) or [mango](https://github.com/mangowm/mango) as extra F3 login sessions. Not in the installer; [docs/OPTIONAL-SESSIONS.md](docs/OPTIONAL-SESSIONS.md) is the guide. Hyprland stays daily.
 
 ## Quick start (after Arch exists)
 
