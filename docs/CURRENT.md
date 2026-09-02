@@ -1,6 +1,6 @@
 # Current desktop
 
-This is the working HyprArch desktop as of 2026-08-31. The development guest was Arch Linux ARM in Parallels on Apple Silicon. The same widgets and apps are what `--track metal` should produce, except the monitor block and Parallels extras.
+This is the working HyprArch desktop as of 2026-09-02. The development guest was Arch Linux ARM in Parallels on Apple Silicon. The same widgets and apps are what `--track metal` should produce, except the monitor block and Parallels extras.
 
 ## Session
 
@@ -37,10 +37,13 @@ This is the working HyprArch desktop as of 2026-08-31. The development guest was
 | Super+Q | Close (force-kill for nsxiv/imv) |
 | Super+F | Fullscreen |
 | Super+V | Float/tile |
+| Super+L | Toggle this room between dwindle and horizontal scrolling |
 | Super+1…5 | Workspace |
 | Super+Shift+1…5 | Move window |
 | Super+/ | Cheatsheet |
 | Super+Shift+E | `uwsm stop` |
+
+Hyprland defaults to dwindle. Rooms 1–5 can each switch to native horizontal scrolling and persist that choice under `~/.local/state/hyprarch/workspace-layouts/`. Super+Left/Right moves focus across scrolling columns.
 
 ## Theme
 

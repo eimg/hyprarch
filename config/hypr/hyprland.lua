@@ -42,6 +42,9 @@ hl.config({
     dwindle = {
         preserve_split = true,
     },
+    scrolling = {
+        column_width = 0.49,
+    },
     input = {
         kb_layout = "us",
         follow_mouse = 1,
@@ -56,6 +59,71 @@ hl.config({
         no_donation_nag = true,
     },
 })
+
+local state_home = os.getenv("XDG_STATE_HOME")
+if state_home == nil or state_home == "" then
+    state_home = os.getenv("HOME") .. "/.local/state"
+end
+local workspace_layout_dir = state_home .. "/hyprarch/workspace-layouts"
+
+-- Layout choices are deliberately limited to the five fixed HyprArch rooms.
+-- Load their saved workspace rules after the global dwindle default.
+for workspace = 1, 5 do
+    local path = workspace_layout_dir .. "/" .. workspace .. ".lua"
+    local file = io.open(path, "r")
+    if file ~= nil then
+        file:close()
+        dofile(path)
+    end
+end
+
+local function layout_notice(text)
+    hl.notification.create({ text = text, timeout = 2500 })
+end
+
+local function save_workspace_layout(workspace, layout)
+    local path = workspace_layout_dir .. "/" .. workspace .. ".lua"
+    local temporary_path = path .. ".tmp"
+    local file, open_error = io.open(temporary_path, "w")
+    if file == nil then
+        return false, open_error
+    end
+
+    file:write(string.format(
+        'hl.workspace_rule({ workspace = "%d", layout = "%s" })\n',
+        workspace,
+        layout
+    ))
+    file:close()
+
+    local renamed, rename_error = os.rename(temporary_path, path)
+    if not renamed then
+        os.remove(temporary_path)
+        return false, rename_error
+    end
+
+    return true
+end
+
+local function toggle_workspace_layout()
+    local workspace = hl.get_active_workspace()
+    if workspace == nil or workspace.id < 1 or workspace.id > 5 then
+        layout_notice("Layout toggle is available in rooms 1–5")
+        return
+    end
+
+    local new_layout = workspace.tiled_layout == "dwindle" and "scrolling" or "dwindle"
+    hl.workspace_rule({ workspace = tostring(workspace.id), layout = new_layout })
+
+    local saved, save_error = save_workspace_layout(workspace.id, new_layout)
+    if not saved then
+        layout_notice("Room " .. workspace.id .. ": changed, but could not save")
+        print("HyprArch layout persistence failed: " .. tostring(save_error))
+        return
+    end
+
+    layout_notice("Room " .. workspace.id .. ": " .. new_layout)
+end
 
 local mod = "SUPER"
 
@@ -77,6 +145,7 @@ end)
 hl.bind(mod .. " + SHIFT + E", hl.dsp.exec_cmd("uwsm stop"))
 hl.bind(mod .. " + F", hl.dsp.window.fullscreen())
 hl.bind(mod .. " + V", hl.dsp.window.float({ action = "toggle" }))
+hl.bind(mod .. " + L", toggle_workspace_layout)
 
 hl.bind(mod .. " + left", hl.dsp.focus({ direction = "left" }))
 hl.bind(mod .. " + right", hl.dsp.focus({ direction = "right" }))
@@ -97,4 +166,3 @@ hl.window_rule({
     center = true,
     size = { "monitor_w * 0.78", "monitor_h * 0.78" },
 })
-

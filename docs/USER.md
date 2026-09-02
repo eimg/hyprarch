@@ -69,8 +69,11 @@ The agent starts by **verifying**, not by installing.
 - Super+Space — launcher
 - Super+E — files
 - Super+N — notepad
+- Super+L — toggle this room between dwindle and horizontal scrolling
 - Super+/ — keybinds
 - Bar gear — wallpaper and color theme
+
+Rooms 1–5 remember their layout independently. In scrolling mode, use Super+Left/Right to move focus across the horizontal columns.
 
 VS Code is not part of this kickstart. Neovim is in the terminal; Mousepad is the GUI notepad.
 

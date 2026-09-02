@@ -32,6 +32,7 @@ Start with **[docs/USER.md](docs/USER.md)**. Agents start with **[AGENTS.md](AGE
 
 - greetd + tuigreet on VT1, Hyprland via UWSM
 - Quickshell bar: workspaces, launcher, calendar, settings, power menu
+- Per-room dwindle or horizontal scrolling layout (`Super+L`), remembered across logins
 - Thunar, Mousepad, Neovim, Foot, Chromium, nsxiv (via an imv-named wrapper)
 - Papirus folders remapped to the color palette (Hyprarch icon overlay)
 - Adwaita-dark, Inter, JetBrains Mono

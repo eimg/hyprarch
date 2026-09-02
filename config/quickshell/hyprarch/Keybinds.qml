@@ -29,7 +29,8 @@ PopupWindow {
             title: "WORKSPACES",
             rows: [
                 { keys: "Super + 1…5", action: "Switch workspace" },
-                { keys: "Super + Shift + 1…5", action: "Move window there" }
+                { keys: "Super + Shift + 1…5", action: "Move window there" },
+                { keys: "Super + L", action: "Dwindle ↔ scrolling (this room)" }
             ]
         },
         {
@@ -114,7 +115,7 @@ PopupWindow {
 
             Text {
                 width: parent.width
-                text: "Super is the Windows key in this VM."
+                text: "Super is the Windows key. Each room keeps its own dwindle or scrolling layout."
                 color: Theme.textDim
                 font.family: "Inter"
                 font.pixelSize: 11

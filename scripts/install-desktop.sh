@@ -128,7 +128,8 @@ install -d \
     "$HOME/.local/bin" \
     "$HOME/.local/share/applications" \
     "$HOME/.local/share/backgrounds/hyprarch" \
-    "$HOME/.local/share/gtksourceview-4/styles"
+    "$HOME/.local/share/gtksourceview-4/styles" \
+    "$HOME/.local/state/hyprarch/workspace-layouts"
 
 install -m 644 "$CFG/hypr/hyprland.lua" "$HOME/.config/hypr/hyprland.lua"
 rm -f "$HOME/.config/hypr/hyprland.conf"
